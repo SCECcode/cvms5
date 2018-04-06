@@ -1,0 +1,17 @@
+This software was written by David Gill <davidgil@usc.edu>. All communication
+regarding using CVM-S5 or UCVM should be directed to software@scec.org. Any
+scientific questions regarding this model should be directed to the researchers
+behind this model.
+
+The data and code for this model is based off of the following papers:
+
+Lee, E., Chen, P., Jordan, T., & Wang, L., 2011. Rapid full-wave centroid 
+	moment tensor (CMT) inversion in a three-dimensional earth structure model
+	for earthquakes in Southern California, Geophysical Journal International, 
+	186, 311Ð330.
+Chen, P., Lee, E., Jordan, T. H., Maechling, P. J., Denolle, M., & 
+	Beroza, G. C., 2011, Full-3D Waveform Tomography for Southern California, 
+	2011 SSA Annual Meeting, Memphis, TN
+Lee, E., Chen, P., Jordan, T. H., Maechling, P. J., Denolle, M., & 
+	Beroza, G. C., 2010, Full-3D Waveform Tomography for Southern California, 
+	2010 AGU Fall Meeting, San Francisco, CA

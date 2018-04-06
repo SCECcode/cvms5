@@ -1,0 +1,6 @@
+PROJECT_NAME		= CVM-S5
+OUTPUT_DIRECTORY	= docs
+WARNINGS		= YES
+INPUT			= src tests docs
+FILE_PATTERNS		= *.c *.h *.dox
+SEARCHENGINE		= NO
