@@ -1,0 +1,74 @@
+\hypertarget{test_8c}{\section{tests/test.c File Reference}
+\label{test_8c}\index{tests/test.\+c@{tests/test.\+c}}
+}
+
+
+Bootstraps the test framework for the C\+V\+M-\/\+S5 library.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}cvms5.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbasic__point__t}{basic\+\_\+point\+\_\+t}
+\item 
+struct \hyperlink{structbasic__properties__t}{basic\+\_\+properties\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structbasic__point__t}{basic\+\_\+point\+\_\+t} \hyperlink{test_8c_ae784602e1bf11d26f668aa2991e6184c}{basic\+\_\+point\+\_\+t}
+\item 
+typedef struct \hyperlink{structbasic__properties__t}{basic\+\_\+properties\+\_\+t} \hyperlink{test_8c_ae500b4ab169cdc2a4427e3026b03737d}{basic\+\_\+properties\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{test_8c_ac0f2228420376f4db7e1274f2b41667c}{main} (int argc, const char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Bootstraps the test framework for the C\+V\+M-\/\+S5 library. 
+
+\begin{DoxyAuthor}{Author}
+David Gill -\/ S\+C\+E\+C \href{mailto:davidgil@usc.edu}{\tt davidgil@usc.\+edu} 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+Tests the C\+V\+M-\/\+S5 library by loading it and executing the code as U\+C\+V\+M would do it. 
+
+\subsection{Typedef Documentation}
+\hypertarget{test_8c_ae784602e1bf11d26f668aa2991e6184c}{\index{test.\+c@{test.\+c}!basic\+\_\+point\+\_\+t@{basic\+\_\+point\+\_\+t}}
+\index{basic\+\_\+point\+\_\+t@{basic\+\_\+point\+\_\+t}!test.\+c@{test.\+c}}
+\subsubsection[{basic\+\_\+point\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf basic\+\_\+point\+\_\+t}  {\bf basic\+\_\+point\+\_\+t}}}\label{test_8c_ae784602e1bf11d26f668aa2991e6184c}
+U\+C\+V\+M definition of a point (latitude, longitude, depth in W\+G\+S84 format) \hypertarget{test_8c_ae500b4ab169cdc2a4427e3026b03737d}{\index{test.\+c@{test.\+c}!basic\+\_\+properties\+\_\+t@{basic\+\_\+properties\+\_\+t}}
+\index{basic\+\_\+properties\+\_\+t@{basic\+\_\+properties\+\_\+t}!test.\+c@{test.\+c}}
+\subsubsection[{basic\+\_\+properties\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf basic\+\_\+properties\+\_\+t}  {\bf basic\+\_\+properties\+\_\+t}}}\label{test_8c_ae500b4ab169cdc2a4427e3026b03737d}
+U\+C\+V\+M definition of material properties 
+
+\subsection{Function Documentation}
+\hypertarget{test_8c_ac0f2228420376f4db7e1274f2b41667c}{\index{test.\+c@{test.\+c}!main@{main}}
+\index{main@{main}!test.\+c@{test.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{const char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{test_8c_ac0f2228420376f4db7e1274f2b41667c}
+Initializes and runs the test program. Tests link against the static version of the library to prevent any dynamic loading issues.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of arguments. \\
+\hline
+{\em argv} & The argument strings. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A zero value indicating success. 
+\end{DoxyReturn}

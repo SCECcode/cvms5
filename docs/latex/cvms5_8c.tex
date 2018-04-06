@@ -1,0 +1,355 @@
+\hypertarget{cvms5_8c}{\section{src/cvms5.c File Reference}
+\label{cvms5_8c}\index{src/cvms5.\+c@{src/cvms5.\+c}}
+}
+
+
+Main file for C\+V\+M-\/\+S5 library.  
+
+
+{\ttfamily \#include \char`\"{}cvms5.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{cvms5_8c_a0535f8eef40407d6b93b64709d3cbcf7}{cvms5\+\_\+init} (const char $\ast$dir, const char $\ast$label)
+\item 
+int \hyperlink{cvms5_8c_aa640befc95cd89ec5b65abab9c6709dd}{cvms5\+\_\+query} (\hyperlink{structcvms5__point__t}{cvms5\+\_\+point\+\_\+t} $\ast$points, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$data, int numpoints)
+\item 
+void \hyperlink{cvms5_8c_a42ea40c3789ced49f19655962d22767f}{read\+\_\+properties} (int x, int y, int z, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$data)
+\item 
+void \hyperlink{cvms5_8c_adbfbcf7b65fbe653ca346a7d43d07901}{trilinear\+\_\+interpolation} (double x\+\_\+percent, double y\+\_\+percent, double z\+\_\+percent, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$eight\+\_\+points, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$ret\+\_\+properties)
+\item 
+void \hyperlink{cvms5_8c_af15b82f0e188a01425147ca394c7cd26}{bilinear\+\_\+interpolation} (double x\+\_\+percent, double y\+\_\+percent, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$four\+\_\+points, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$ret\+\_\+properties)
+\item 
+void \hyperlink{cvms5_8c_a4fadaa9b9d6624ae5b2baa62418ed806}{linear\+\_\+interpolation} (double percent, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$x0, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$x1, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$ret\+\_\+properties)
+\item 
+int \hyperlink{cvms5_8c_ac5d8bb2201b10dee7c81e9b1a96bf268}{cvms5\+\_\+finalize} ()
+\item 
+int \hyperlink{cvms5_8c_a50fe99aa54d7eaba060bdd647ea1e086}{cvms5\+\_\+version} (char $\ast$ver, int len)
+\item 
+int \hyperlink{cvms5_8c_a22588c1d37af02e29feb650c15388a7b}{read\+\_\+configuration} (char $\ast$file, \hyperlink{structcvms5__configuration__t}{cvms5\+\_\+configuration\+\_\+t} $\ast$config)
+\item 
+int \hyperlink{cvms5_8c_aec02ef7515e5117f704cb1f6e86375ea}{read\+\_\+vs30\+\_\+map} (char $\ast$filename, \hyperlink{structcvms5__vs30__map__config__t}{cvms5\+\_\+vs30\+\_\+map\+\_\+config\+\_\+t} $\ast$map)
+\item 
+double \hyperlink{cvms5_8c_a3b8ed74535afd6f4e54790ef222bd321}{get\+\_\+vs30\+\_\+value} (double longitude, double latitude, \hyperlink{structcvms5__vs30__map__config__t}{cvms5\+\_\+vs30\+\_\+map\+\_\+config\+\_\+t} $\ast$map)
+\item 
+int \hyperlink{cvms5_8c_aff8fe5d070dcb341e71ac6821d5af2b3}{get\+\_\+vs30\+\_\+based\+\_\+gtl} (\hyperlink{structcvms5__point__t}{cvms5\+\_\+point\+\_\+t} $\ast$point, \hyperlink{structcvms5__properties__t}{cvms5\+\_\+properties\+\_\+t} $\ast$data)
+\item 
+double \hyperlink{cvms5_8c_aa319fb90bd40ac8cfaa3928606d81ccc}{calculate\+\_\+density} (double vs)
+\item 
+void \hyperlink{cvms5_8c_a9858e24fbf6b9fa04d4bffbb0085da46}{print\+\_\+error} (char $\ast$err)
+\item 
+int \hyperlink{cvms5_8c_af029487303ffe6ac9ed50f5ed49ab911}{try\+\_\+reading\+\_\+model} (\hyperlink{structcvms5__model__t}{cvms5\+\_\+model\+\_\+t} $\ast$model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main file for C\+V\+M-\/\+S5 library. 
+
+\begin{DoxyAuthor}{Author}
+David Gill -\/ S\+C\+E\+C \href{mailto:davidgil@usc.edu}{\tt davidgil@usc.\+edu} 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{cvms5_8c_DESCRIPTION}{}\subsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+O\+N}\label{cvms5_8c_DESCRIPTION}
+Delivers C\+V\+M-\/\+S5 which consists of Po Chen and En-\/\+Jui Lee's full 3\+D tomographic results with a Vs30-\/based G\+T\+L as per Po Chen and Geoff Ely. 
+
+\subsection{Function Documentation}
+\hypertarget{cvms5_8c_af15b82f0e188a01425147ca394c7cd26}{\index{cvms5.\+c@{cvms5.\+c}!bilinear\+\_\+interpolation@{bilinear\+\_\+interpolation}}
+\index{bilinear\+\_\+interpolation@{bilinear\+\_\+interpolation}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{bilinear\+\_\+interpolation}]{\setlength{\rightskip}{0pt plus 5cm}void bilinear\+\_\+interpolation (
+\begin{DoxyParamCaption}
+\item[{double}]{x\+\_\+percent, }
+\item[{double}]{y\+\_\+percent, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{four\+\_\+points, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{ret\+\_\+properties}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_af15b82f0e188a01425147ca394c7cd26}
+Bilinearly interpolates given a x percentage, y percentage, and a plane of data properties in origin, bottom-\/right, top-\/left, top-\/right format.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+\_\+percent} & X percentage. \\
+\hline
+{\em y\+\_\+percent} & Y percentage. \\
+\hline
+{\em four\+\_\+points} & Data property plane. \\
+\hline
+{\em ret\+\_\+properties} & Returned data properties. \\
+\hline
+\end{DoxyParams}
+\hypertarget{cvms5_8c_aa319fb90bd40ac8cfaa3928606d81ccc}{\index{cvms5.\+c@{cvms5.\+c}!calculate\+\_\+density@{calculate\+\_\+density}}
+\index{calculate\+\_\+density@{calculate\+\_\+density}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{calculate\+\_\+density}]{\setlength{\rightskip}{0pt plus 5cm}double calculate\+\_\+density (
+\begin{DoxyParamCaption}
+\item[{double}]{vs}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_aa319fb90bd40ac8cfaa3928606d81ccc}
+Calculates the density based off of Vs. Based on Nafe-\/\+Drake scaling relationship.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The Vs value off which to scale. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Density, in g/m$^\wedge$3. 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_ac5d8bb2201b10dee7c81e9b1a96bf268}{\index{cvms5.\+c@{cvms5.\+c}!cvms5\+\_\+finalize@{cvms5\+\_\+finalize}}
+\index{cvms5\+\_\+finalize@{cvms5\+\_\+finalize}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{cvms5\+\_\+finalize}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+finalize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_ac5d8bb2201b10dee7c81e9b1a96bf268}
+Called when the model is being discarded. Free all variables.
+
+\begin{DoxyReturn}{Returns}
+S\+U\+C\+C\+E\+S\+S 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_a0535f8eef40407d6b93b64709d3cbcf7}{\index{cvms5.\+c@{cvms5.\+c}!cvms5\+\_\+init@{cvms5\+\_\+init}}
+\index{cvms5\+\_\+init@{cvms5\+\_\+init}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{cvms5\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{dir, }
+\item[{const char $\ast$}]{label}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a0535f8eef40407d6b93b64709d3cbcf7}
+Initializes the C\+V\+M-\/\+S5 plugin model within the U\+C\+V\+M framework. In order to initialize the model, we must provide the U\+C\+V\+M install path and optionally a place in memory where the model already exists.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dir} & The directory in which U\+C\+V\+M has been installed. \\
+\hline
+{\em label} & A unique identifier for the velocity model. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or failure, if initialization was successful. 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_aa640befc95cd89ec5b65abab9c6709dd}{\index{cvms5.\+c@{cvms5.\+c}!cvms5\+\_\+query@{cvms5\+\_\+query}}
+\index{cvms5\+\_\+query@{cvms5\+\_\+query}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{cvms5\+\_\+query}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+query (
+\begin{DoxyParamCaption}
+\item[{{\bf cvms5\+\_\+point\+\_\+t} $\ast$}]{points, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{data, }
+\item[{int}]{numpoints}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_aa640befc95cd89ec5b65abab9c6709dd}
+Queries C\+V\+M-\/\+S5 at the given points and returns the data that it finds. If G\+T\+L is enabled, it also adds the Vs30 G\+T\+L as described by Po Chen.
+
+
+\begin{DoxyParams}{Parameters}
+{\em points} & The points at which the queries will be made. \\
+\hline
+{\em data} & The data that will be returned (Vp, Vs, density, Qs, and/or Qp). \\
+\hline
+{\em numpoints} & The total number of points to query. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\+U\+C\+C\+E\+S\+S or F\+A\+I\+L. 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_a50fe99aa54d7eaba060bdd647ea1e086}{\index{cvms5.\+c@{cvms5.\+c}!cvms5\+\_\+version@{cvms5\+\_\+version}}
+\index{cvms5\+\_\+version@{cvms5\+\_\+version}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{cvms5\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+version (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{ver, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a50fe99aa54d7eaba060bdd647ea1e086}
+Returns the version information.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ver} & Version string to return. \\
+\hline
+{\em len} & Maximum length of buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Zero 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_aff8fe5d070dcb341e71ac6821d5af2b3}{\index{cvms5.\+c@{cvms5.\+c}!get\+\_\+vs30\+\_\+based\+\_\+gtl@{get\+\_\+vs30\+\_\+based\+\_\+gtl}}
+\index{get\+\_\+vs30\+\_\+based\+\_\+gtl@{get\+\_\+vs30\+\_\+based\+\_\+gtl}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{get\+\_\+vs30\+\_\+based\+\_\+gtl}]{\setlength{\rightskip}{0pt plus 5cm}int get\+\_\+vs30\+\_\+based\+\_\+gtl (
+\begin{DoxyParamCaption}
+\item[{{\bf cvms5\+\_\+point\+\_\+t} $\ast$}]{point, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_aff8fe5d070dcb341e71ac6821d5af2b3}
+Gets the G\+T\+L value using the Wills and Wald dataset, given a latitude, longitude and depth.
+
+
+\begin{DoxyParams}{Parameters}
+{\em point} & The point at which to retrieve the property. Note, depth is ignored. \\
+\hline
+{\em data} & The material properties at the point specified, or -\/1 if not found. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or failure. 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_a3b8ed74535afd6f4e54790ef222bd321}{\index{cvms5.\+c@{cvms5.\+c}!get\+\_\+vs30\+\_\+value@{get\+\_\+vs30\+\_\+value}}
+\index{get\+\_\+vs30\+\_\+value@{get\+\_\+vs30\+\_\+value}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{get\+\_\+vs30\+\_\+value}]{\setlength{\rightskip}{0pt plus 5cm}double get\+\_\+vs30\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{double}]{longitude, }
+\item[{double}]{latitude, }
+\item[{{\bf cvms5\+\_\+vs30\+\_\+map\+\_\+config\+\_\+t} $\ast$}]{map}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a3b8ed74535afd6f4e54790ef222bd321}
+Given a latitude and longitude in W\+G\+S84 co-\/ordinates, we find the corresponding e-\/tree octant in the Vs30 map e-\/tree and read the value as well as interpolate bilinearly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em longitude} & The longitude in W\+G\+S84 format. \\
+\hline
+{\em latitude} & The latitude in W\+G\+S84 format. \\
+\hline
+{\em map} & The Vs30 map structure as defined during the initialization procedure. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Vs30 value at that point, or -\/1 if outside the boundaries. 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_a4fadaa9b9d6624ae5b2baa62418ed806}{\index{cvms5.\+c@{cvms5.\+c}!linear\+\_\+interpolation@{linear\+\_\+interpolation}}
+\index{linear\+\_\+interpolation@{linear\+\_\+interpolation}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{linear\+\_\+interpolation}]{\setlength{\rightskip}{0pt plus 5cm}void linear\+\_\+interpolation (
+\begin{DoxyParamCaption}
+\item[{double}]{percent, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{x0, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{x1, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{ret\+\_\+properties}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a4fadaa9b9d6624ae5b2baa62418ed806}
+Linearly interpolates given a percentage from x0 to x1, a data point at x0, and a data point at x1.
+
+
+\begin{DoxyParams}{Parameters}
+{\em percent} & Percent of the way from x0 to x1 (from 0 to 1 interval). \\
+\hline
+{\em x0} & Data point at x0. \\
+\hline
+{\em x1} & Data point at x1. \\
+\hline
+{\em ret\+\_\+properties} & Resulting data properties. \\
+\hline
+\end{DoxyParams}
+\hypertarget{cvms5_8c_a9858e24fbf6b9fa04d4bffbb0085da46}{\index{cvms5.\+c@{cvms5.\+c}!print\+\_\+error@{print\+\_\+error}}
+\index{print\+\_\+error@{print\+\_\+error}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{print\+\_\+error}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+error (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{err}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a9858e24fbf6b9fa04d4bffbb0085da46}
+Prints the error string provided.
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & The error string to print out to stderr. \\
+\hline
+\end{DoxyParams}
+\hypertarget{cvms5_8c_a22588c1d37af02e29feb650c15388a7b}{\index{cvms5.\+c@{cvms5.\+c}!read\+\_\+configuration@{read\+\_\+configuration}}
+\index{read\+\_\+configuration@{read\+\_\+configuration}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{read\+\_\+configuration}]{\setlength{\rightskip}{0pt plus 5cm}int read\+\_\+configuration (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{file, }
+\item[{{\bf cvms5\+\_\+configuration\+\_\+t} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a22588c1d37af02e29feb650c15388a7b}
+Reads the configuration file describing the various properties of C\+V\+M-\/\+S5 and populates the configuration struct. This assumes configuration has been \char`\"{}calloc'ed\char`\"{} and validates that each value is not zero at the end.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The configuration file location on disk to read. \\
+\hline
+{\em config} & The configuration struct to which the data should be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or failure, depending on if file was read successfully. 
+\end{DoxyReturn}
+\hypertarget{cvms5_8c_a42ea40c3789ced49f19655962d22767f}{\index{cvms5.\+c@{cvms5.\+c}!read\+\_\+properties@{read\+\_\+properties}}
+\index{read\+\_\+properties@{read\+\_\+properties}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{read\+\_\+properties}]{\setlength{\rightskip}{0pt plus 5cm}void read\+\_\+properties (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{z, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_a42ea40c3789ced49f19655962d22767f}
+Retrieves the material properties (whatever is available) for the given data point, expressed in x, y, and z co-\/ordinates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x coordinate of the data point. \\
+\hline
+{\em y} & The y coordinate of the data point. \\
+\hline
+{\em z} & The z coordinate of the data point. \\
+\hline
+{\em data} & The properties struct to which the material properties will be written. \\
+\hline
+\end{DoxyParams}
+\hypertarget{cvms5_8c_aec02ef7515e5117f704cb1f6e86375ea}{\index{cvms5.\+c@{cvms5.\+c}!read\+\_\+vs30\+\_\+map@{read\+\_\+vs30\+\_\+map}}
+\index{read\+\_\+vs30\+\_\+map@{read\+\_\+vs30\+\_\+map}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{read\+\_\+vs30\+\_\+map}]{\setlength{\rightskip}{0pt plus 5cm}int read\+\_\+vs30\+\_\+map (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{filename, }
+\item[{{\bf cvms5\+\_\+vs30\+\_\+map\+\_\+config\+\_\+t} $\ast$}]{map}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_aec02ef7515e5117f704cb1f6e86375ea}
+Reads the format of the Vs30 data e-\/tree. This file location is typically specified in the configuration file of the model.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The e-\/tree's file location from which to read. \\
+\hline
+{\em map} & The outputted map configuration structure. \\
+\hline
+\end{DoxyParams}
+\hypertarget{cvms5_8c_adbfbcf7b65fbe653ca346a7d43d07901}{\index{cvms5.\+c@{cvms5.\+c}!trilinear\+\_\+interpolation@{trilinear\+\_\+interpolation}}
+\index{trilinear\+\_\+interpolation@{trilinear\+\_\+interpolation}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{trilinear\+\_\+interpolation}]{\setlength{\rightskip}{0pt plus 5cm}void trilinear\+\_\+interpolation (
+\begin{DoxyParamCaption}
+\item[{double}]{x\+\_\+percent, }
+\item[{double}]{y\+\_\+percent, }
+\item[{double}]{z\+\_\+percent, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{eight\+\_\+points, }
+\item[{{\bf cvms5\+\_\+properties\+\_\+t} $\ast$}]{ret\+\_\+properties}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_adbfbcf7b65fbe653ca346a7d43d07901}
+Trilinearly interpolates given a x percentage, y percentage, z percentage and a cube of data properties in top origin format (top plane first, bottom plane second).
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+\_\+percent} & X percentage \\
+\hline
+{\em y\+\_\+percent} & Y percentage \\
+\hline
+{\em z\+\_\+percent} & Z percentage \\
+\hline
+{\em eight\+\_\+points} & Eight surrounding data properties \\
+\hline
+{\em ret\+\_\+properties} & Returned data properties \\
+\hline
+\end{DoxyParams}
+\hypertarget{cvms5_8c_af029487303ffe6ac9ed50f5ed49ab911}{\index{cvms5.\+c@{cvms5.\+c}!try\+\_\+reading\+\_\+model@{try\+\_\+reading\+\_\+model}}
+\index{try\+\_\+reading\+\_\+model@{try\+\_\+reading\+\_\+model}!cvms5.\+c@{cvms5.\+c}}
+\subsubsection[{try\+\_\+reading\+\_\+model}]{\setlength{\rightskip}{0pt plus 5cm}int try\+\_\+reading\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{{\bf cvms5\+\_\+model\+\_\+t} $\ast$}]{model}
+\end{DoxyParamCaption}
+)}}\label{cvms5_8c_af029487303ffe6ac9ed50f5ed49ab911}
+Tries to read the model into memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em model} & The model parameter struct which will hold the pointers to the data either on disk or in memory. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+2 if all files are read to memory, S\+U\+C\+C\+E\+S\+S if file is found but at least 1 is not in memory, F\+A\+I\+L if no file found. 
+\end{DoxyReturn}

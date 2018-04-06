@@ -1,0 +1,35 @@
+# UTM Zone
+utm_zone = 11
+
+# Model directory
+model_dir = s5
+
+# GTL on or off?
+gtl = off
+
+# Number of cells in x, y, and z.
+nx = 1536
+ny = 992
+nz = 100
+
+# Depth, in meters
+depth = 50000
+depth_interval = 500
+
+# Density scaling parameters
+p5 = -0.0024189659303912917
+p4 = 0.015600987888334450
+p3 = 0.051962399479341816
+p2 = -0.51231936640441489
+p1 = 1.2550758337054457
+p0 = 1.2948318548300342
+
+# Corners, in UTM projection.
+bottom_right_corner_e	= 596013.92402056302
+bottom_right_corner_n   = 3368878.9393477398     
+bottom_left_corner_e  	= 10616.346941343043
+bottom_left_corner_n  	= 3868878.9393477398
+top_right_corner_e  	= 916460.47111054836
+top_right_corner_n	= 3746813.1405760832
+top_left_corner_e 	= 331062.89403132832
+top_left_corner_n	= 4243165.7639697529

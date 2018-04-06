@@ -1,0 +1,71 @@
+\hypertarget{structcvms5__model__t}{\section{cvms5\+\_\+model\+\_\+t Struct Reference}
+\label{structcvms5__model__t}\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$cvms5.\+h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{structcvms5__model__t_a26cacd56b7e4edc37a1b21f1a295fa43}{vs}
+\item 
+int \hyperlink{structcvms5__model__t_a77462a1085b53b84ce91d72943aa6801}{vs\+\_\+status}
+\item 
+void $\ast$ \hyperlink{structcvms5__model__t_a0195bcc697749db53879823f41d026bf}{vp}
+\item 
+int \hyperlink{structcvms5__model__t_ab42d17208dc3406887ed8fbc09150442}{vp\+\_\+status}
+\item 
+void $\ast$ \hyperlink{structcvms5__model__t_a9b06d2bca8552757e25f9c932389feea}{rho}
+\item 
+int \hyperlink{structcvms5__model__t_a62d69a02eee534fd95f678fd3f1031cf}{rho\+\_\+status}
+\item 
+void $\ast$ \hyperlink{structcvms5__model__t_aa3844d45e4d1ae2945748ba5942eac67}{qp}
+\item 
+int \hyperlink{structcvms5__model__t_afbd064c26423319fe50134a8033949d3}{qp\+\_\+status}
+\item 
+void $\ast$ \hyperlink{structcvms5__model__t_a6df0c937c0e0f2889957303687e47cd0}{qs}
+\item 
+int \hyperlink{structcvms5__model__t_a53665c8b1d9367a538cd635cc4007792}{qs\+\_\+status}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The model structure which points to available portions of the model. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structcvms5__model__t_aa3844d45e4d1ae2945748ba5942eac67}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!qp@{qp}}
+\index{qp@{qp}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{qp}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ cvms5\+\_\+model\+\_\+t\+::qp}}\label{structcvms5__model__t_aa3844d45e4d1ae2945748ba5942eac67}
+A pointer to the Qp data either in memory or disk. Null if does not exist. \hypertarget{structcvms5__model__t_afbd064c26423319fe50134a8033949d3}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!qp\+\_\+status@{qp\+\_\+status}}
+\index{qp\+\_\+status@{qp\+\_\+status}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{qp\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+model\+\_\+t\+::qp\+\_\+status}}\label{structcvms5__model__t_afbd064c26423319fe50134a8033949d3}
+Qp status\+: 0 = not found, 1 = found and not in memory, 2 = found and in memory \hypertarget{structcvms5__model__t_a6df0c937c0e0f2889957303687e47cd0}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!qs@{qs}}
+\index{qs@{qs}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{qs}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ cvms5\+\_\+model\+\_\+t\+::qs}}\label{structcvms5__model__t_a6df0c937c0e0f2889957303687e47cd0}
+A pointer to the Qs data either in memory or disk. Null if does not exist. \hypertarget{structcvms5__model__t_a53665c8b1d9367a538cd635cc4007792}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!qs\+\_\+status@{qs\+\_\+status}}
+\index{qs\+\_\+status@{qs\+\_\+status}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{qs\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+model\+\_\+t\+::qs\+\_\+status}}\label{structcvms5__model__t_a53665c8b1d9367a538cd635cc4007792}
+Qs status\+: 0 = not found, 1 = found and not in memory, 2 = found and in memory \hypertarget{structcvms5__model__t_a9b06d2bca8552757e25f9c932389feea}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!rho@{rho}}
+\index{rho@{rho}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{rho}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ cvms5\+\_\+model\+\_\+t\+::rho}}\label{structcvms5__model__t_a9b06d2bca8552757e25f9c932389feea}
+A pointer to the rho data either in memory or disk. Null if does not exist. \hypertarget{structcvms5__model__t_a62d69a02eee534fd95f678fd3f1031cf}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!rho\+\_\+status@{rho\+\_\+status}}
+\index{rho\+\_\+status@{rho\+\_\+status}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{rho\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+model\+\_\+t\+::rho\+\_\+status}}\label{structcvms5__model__t_a62d69a02eee534fd95f678fd3f1031cf}
+Rho status\+: 0 = not found, 1 = found and not in memory, 2 = found and in memory \hypertarget{structcvms5__model__t_a0195bcc697749db53879823f41d026bf}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!vp@{vp}}
+\index{vp@{vp}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{vp}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ cvms5\+\_\+model\+\_\+t\+::vp}}\label{structcvms5__model__t_a0195bcc697749db53879823f41d026bf}
+A pointer to the Vp data either in memory or disk. Null if does not exist. \hypertarget{structcvms5__model__t_ab42d17208dc3406887ed8fbc09150442}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!vp\+\_\+status@{vp\+\_\+status}}
+\index{vp\+\_\+status@{vp\+\_\+status}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{vp\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+model\+\_\+t\+::vp\+\_\+status}}\label{structcvms5__model__t_ab42d17208dc3406887ed8fbc09150442}
+Vp status\+: 0 = not found, 1 = found and not in memory, 2 = found and in memory \hypertarget{structcvms5__model__t_a26cacd56b7e4edc37a1b21f1a295fa43}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!vs@{vs}}
+\index{vs@{vs}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{vs}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ cvms5\+\_\+model\+\_\+t\+::vs}}\label{structcvms5__model__t_a26cacd56b7e4edc37a1b21f1a295fa43}
+A pointer to the Vs data either in memory or disk. Null if does not exist. \hypertarget{structcvms5__model__t_a77462a1085b53b84ce91d72943aa6801}{\index{cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}!vs\+\_\+status@{vs\+\_\+status}}
+\index{vs\+\_\+status@{vs\+\_\+status}!cvms5\+\_\+model\+\_\+t@{cvms5\+\_\+model\+\_\+t}}
+\subsubsection[{vs\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}int cvms5\+\_\+model\+\_\+t\+::vs\+\_\+status}}\label{structcvms5__model__t_a77462a1085b53b84ce91d72943aa6801}
+Vs status\+: 0 = not found, 1 = found and not in memory, 2 = found and in memory 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{cvms5_8h}{cvms5.\+h}\end{DoxyCompactItemize}

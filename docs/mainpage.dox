@@ -1,0 +1,11 @@
+/**
+\mainpage CVM-S5 Documentation
+
+	Includes the 26th iteration of Po Chen and En-Jui Lee's full 3D tomographic
+	improvements to CVM-S4. This model allows for querying at arbitrary
+	precision as well as incorporating the GTL suggestion by Po Chen using
+	the Wills 2006 and Wald 2008 data sets. The full details of the model are
+	available
+	<a href='http://scec.usc.edu/scecpedia/CVM-S5'>here</a>.
+
+*/
