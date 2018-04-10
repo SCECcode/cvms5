@@ -12,7 +12,7 @@ import subprocess
 model = "CVMS5"
 
 def usage():
-    print("\n./make_data_files.py -d [cvms5] -u [uid]\n\n")
+    print("\n./make_data_files.py -d [s5] -u [uid]\n\n")
     print("-d - dataset to retrieve from hypocenter.\n")
     print("-u - username to use to do the dataset retrieval.\n")
     sys.exit(0)
