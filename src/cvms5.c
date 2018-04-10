@@ -421,7 +421,6 @@ int read_cvms5_configuration(char *file, cvms5_configuration_t *config) {
 			if (strcmp(key, "p3") == 0)						config->p3 = atof(value);
 			if (strcmp(key, "p4") == 0)						config->p4 = atof(value);
 			if (strcmp(key, "p5") == 0)						config->p5 = atof(value);
-
 			if (strcmp(key, "gtl") == 0) {
 				if (strcmp(value, "on") == 0) config->gtl = 1;
 				else config->gtl = 0;
@@ -583,8 +582,6 @@ double get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t
 	percent = fmod(rotated_point_e / map->spacing, map->spacing) / map->spacing;
 	vs30_payload[0].vs30 = percent * vs30_payload[0].vs30 + (1 - percent) * vs30_payload[1].vs30;
 	vs30_payload[1].vs30 = percent * vs30_payload[2].vs30 + (1 - percent) * vs30_payload[3].vs30;
-	percent = fmod(rotated_point_n / map->spacing, map->spacing) / map->spacing;
-	vs30_payload[0].vs30 = percent * vs30_payload[0].vs30 + (1 - percent) * vs30_payload[1].vs30;
 
 	return vs30_payload[0].vs30;
 }

@@ -1,7 +1,6 @@
 # cvms5
 
-directory structure to mainatain for generating thed model
-tar ball
+directory structure to maintain for generating the model tar ball
 
 ```
    CVM-S5 
