@@ -164,16 +164,16 @@ typedef struct cvms5_model_t {
 } cvms5_model_t;
 
 /** Contains the Vs30 and surface values from the UCVM map. */
-typedef struct vs30_mpayload_t {
+typedef struct cvms5_vs30_mpayload_t {
 	/** Surface height in meters */
 	float surf;
 	/** Vs30 data from Wills and Wald */
 	float vs30;
-} vs30_mpayload_t;
+} cvms5_vs30_mpayload_t;
 
 // Constants
 /** The version of the model. */
-const char *version_string = "CVM-S5";
+const char *cvms5_version_string = "CVM-S5";
 
 // Variables
 /** Set to 1 when the model is ready for query. */
@@ -199,19 +199,19 @@ projPJ cvms5_utm;
 projPJ cvms5_aeqd;
 
 /** The cosine of the rotation angle used to rotate the box and point around the bottom-left corner. */
-double cos_rotation_angle = 0;
+double cvms5_cos_rotation_angle = 0;
 /** The sine of the rotation angle used to rotate the box and point around the bottom-left corner. */
-double sin_rotation_angle = 0;
+double cvms5_sin_rotation_angle = 0;
 
 /** The height of this model's region, in meters. */
-double total_height_m = 0;
+double cvms5_total_height_m = 0;
 /** The width of this model's region, in meters. */
-double total_width_m = 0;
+double cvms5_total_width_m = 0;
 
 /** The cosine of the Vs30 map's rotation. */
-double cos_vs30_rotation_angle = 0;
+double cvms5_cos_vs30_rotation_angle = 0;
 /** The sine of the Vs30 map's rotation. */
-double sin_vs30_rotation_angle = 0;
+double cvms5_sin_vs30_rotation_angle = 0;
 
 // UCVM API Required Functions
 
@@ -249,25 +249,25 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpts);
 /** Reads the configuration file. */
 int read_configuration(char *file, cvms5_configuration_t *config);
 /** Retrieves the vs30 value for a given point. */
-int get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data);
+int cvms5_get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data);
 /** Prints out the error string. */
-void print_error(char *err);
+void cvms5_print_error(char *err);
 /** Retrieves the value at a specified grid point in the model. */
-void read_properties(int x, int y, int z, cvms5_properties_t *data);
+void cvms5_read_properties(int x, int y, int z, cvms5_properties_t *data);
 /** Attempts to malloc the model size in memory and read it in. */
-int try_reading_model(cvms5_model_t *model);
+int cvms5_try_reading_model(cvms5_model_t *model);
 /** Reads the specified Vs30 map from UCVM. */
-int read_vs30_map(char *filename, cvms5_vs30_map_config_t *map);
+int cvms5_read_vs30_map(char *filename, cvms5_vs30_map_config_t *map);
 /** Gets the Vs30 value at a point */
-double get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t *map);
+double cvms5_get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t *map);
 /** Calculates density from Vs. */
-double calculate_density(double vs);
+double cvms5_calculate_density(double vs);
 
 // Interpolation Functions
 /** Linearly interpolates two cvms5_properties_t structures */
-void linear_interpolation(double percent, cvms5_properties_t *x0, cvms5_properties_t *x1, cvms5_properties_t *ret_properties);
+void cvms5_linear_interpolation(double percent, cvms5_properties_t *x0, cvms5_properties_t *x1, cvms5_properties_t *ret_properties);
 /** Bilinearly interpolates the properties. */
-void bilinear_interpolation(double x_percent, double y_percent, cvms5_properties_t *four_points, cvms5_properties_t *ret_properties);
+void cvms5_bilinear_interpolation(double x_percent, double y_percent, cvms5_properties_t *four_points, cvms5_properties_t *ret_properties);
 /** Trilinearly interpolates the properties. */
-void trilinear_interpolation(double x_percent, double y_percent, double z_percent, cvms5_properties_t *eight_points,
+void cvms5_trilinear_interpolation(double x_percent, double y_percent, double z_percent, cvms5_properties_t *eight_points,
 							 cvms5_properties_t *ret_properties);

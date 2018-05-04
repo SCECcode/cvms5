@@ -46,33 +46,33 @@ int cvms5_init(const char *dir, const char *label) {
 	sprintf(cvms5_iteration_directory, "%s/model/%s/data/%s/", dir, label, cvms5_configuration->model_dir);
 
 	// Can we allocate the model, or parts of it, to memory. If so, we do.
-	tempVal = try_reading_model(cvms5_velocity_model);
+	tempVal = cvms5_try_reading_model(cvms5_velocity_model);
 
 	if (tempVal == SUCCESS) {
 		fprintf(stderr, "WARNING: Could not load model into memory. Reading the model from the\n");
 		fprintf(stderr, "hard disk may result in slow performance.");
 	} else if (tempVal == FAIL) {
-		print_error("No model file was found to read from.");
+		cvms5_print_error("No model file was found to read from.");
 		return FAIL;
 	}
 
 	if (read_vs30_map(vs30_etree_file, cvms5_vs30_map) != SUCCESS) {
-		print_error("Could not read the Vs30 map data from UCVM.");
+		cvms5_print_error("Could not read the Vs30 map data from UCVM.");
 		return FAIL;
 	}
 
 	// We need to convert the point from lat, lon to UTM, let's set it up.
 	if (!(cvms5_latlon = pj_init_plus("+proj=latlong +datum=WGS84"))) {
-		print_error("Could not set up latitude and longitude projection.");
+		cvms5_print_error("Could not set up latitude and longitude projection.");
 		return FAIL;
 	}
 	if (!(cvms5_utm = pj_init_plus("+proj=utm +zone=11 +ellps=clrk66 +datum=NAD27 +units=m +no_defs"))) {
-		print_error("Could not set up UTM projection.");
+		cvms5_print_error("Could not set up UTM projection.");
 		return FAIL;
 	}
 
 	if (!(cvms5_aeqd = pj_init_plus(cvms5_vs30_map->projection))) {
-		print_error("Could not set up AEQD projection.");
+		cvms5_print_error("Could not set up AEQD projection.");
 		return FAIL;
 	}
 
@@ -88,17 +88,17 @@ int cvms5_init(const char *dir, const char *label) {
 	// Rotation angle. Cos, sin, and tan are expensive computationally, so calculate once.
 	rotation_angle = atan(east_width_m / north_height_m);
 
-	cos_rotation_angle = cos(rotation_angle);
-	sin_rotation_angle = sin(rotation_angle);
+	cvms5_cos_rotation_angle = cos(rotation_angle);
+	cvms5_sin_rotation_angle = sin(rotation_angle);
 
-	total_height_m = sqrt(pow(cvms5_configuration->top_left_corner_n - cvms5_configuration->bottom_left_corner_n, 2.0f) +
+	cvms5_total_height_m = sqrt(pow(cvms5_configuration->top_left_corner_n - cvms5_configuration->bottom_left_corner_n, 2.0f) +
 						  pow(cvms5_configuration->top_left_corner_e - cvms5_configuration->bottom_left_corner_e, 2.0f));
-	total_width_m  = sqrt(pow(cvms5_configuration->top_right_corner_n - cvms5_configuration->top_left_corner_n, 2.0f) +
+	cvms5_total_width_m  = sqrt(pow(cvms5_configuration->top_right_corner_n - cvms5_configuration->top_left_corner_n, 2.0f) +
 						  pow(cvms5_configuration->top_right_corner_e - cvms5_configuration->top_left_corner_e, 2.0f));
 
 	// Get the cos and sin for the Vs30 map rotation.
-	cos_vs30_rotation_angle = cos(cvms5_vs30_map->rotation * DEG_TO_RAD);
-	sin_vs30_rotation_angle = sin(cvms5_vs30_map->rotation * DEG_TO_RAD);
+	cvms5_cos_vs30_rotation_angle = cos(cvms5_vs30_map->rotation * DEG_TO_RAD);
+	cvms5_sin_vs30_rotation_angle = sin(cvms5_vs30_map->rotation * DEG_TO_RAD);
 
 	// Let everyone know that we are initialized and ready for business.
 	cvms5_is_initialized = 1;
@@ -149,12 +149,12 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
 		temp_utm_e = point_utm_e;
 
 		// We need to rotate that point, the number of degrees we calculated above.
-		point_utm_e = cos_rotation_angle * temp_utm_e - sin_rotation_angle * temp_utm_n;
-		point_utm_n = sin_rotation_angle * temp_utm_e + cos_rotation_angle * temp_utm_n;
+		point_utm_e = cvms5_cos_rotation_angle * temp_utm_e - cvms5_sin_rotation_angle * temp_utm_n;
+		point_utm_n = cvms5_sin_rotation_angle * temp_utm_e + cvms5_cos_rotation_angle * temp_utm_n;
 
 		// Which point base point does that correspond to?
-		load_x_coord = floor(point_utm_e / total_width_m * (cvms5_configuration->nx -1));
-		load_y_coord = floor(point_utm_n / total_height_m * (cvms5_configuration->ny - 1));
+		load_x_coord = floor(point_utm_e / cvms5_total_width_m * (cvms5_configuration->nx -1));
+		load_y_coord = floor(point_utm_n / cvms5_total_height_m * (cvms5_configuration->ny - 1));
 
 		// And on the Z-axis?
 		load_z_coord = (cvms5_configuration->depth / cvms5_configuration->depth_interval - 1) -
@@ -164,11 +164,11 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
 		z_percent = fmod(points[i].depth, cvms5_configuration->depth_interval) / cvms5_configuration->depth_interval;
 
 		if (load_z_coord == 0 && z_percent == 0) {
-			read_properties(load_x_coord,     load_y_coord,     load_z_coord,     &(surrounding_points[0]));        // Orgin.
-                        read_properties(load_x_coord + 1, load_y_coord,     load_z_coord,     &(surrounding_points[1]));        // Orgin + 1x
-                        read_properties(load_x_coord,     load_y_coord + 1, load_z_coord,     &(surrounding_points[2]));        // Orgin + 1y
-                        read_properties(load_x_coord + 1, load_y_coord + 1, load_z_coord,     &(surrounding_points[3]));        // Orgin + x + y, forms top plane.
-			bilinear_interpolation(x_percent, y_percent, surrounding_points, &(data[i]));
+			cvms5_read_properties(load_x_coord,     load_y_coord,     load_z_coord,     &(surrounding_points[0]));        // Orgin.
+                        cvms5_read_properties(load_x_coord + 1, load_y_coord,     load_z_coord,     &(surrounding_points[1]));        // Orgin + 1x
+                        cvms5_read_properties(load_x_coord,     load_y_coord + 1, load_z_coord,     &(surrounding_points[2]));        // Orgin + 1y
+                        cvms5_read_properties(load_x_coord + 1, load_y_coord + 1, load_z_coord,     &(surrounding_points[3]));        // Orgin + x + y, forms top plane.
+			cvms5_bilinear_interpolation(x_percent, y_percent, surrounding_points, &(data[i]));
 			
 			// Calculate density.
                 	data[i].rho = calculate_density(data[i].vs);
@@ -194,30 +194,30 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
 		}
 
 		// Get the X and Y percentages for the bilinear or trilinear interpolation below.
-		x_percent = fmod(point_utm_e, total_width_m / (cvms5_configuration->nx - 1)) / (total_width_m / (cvms5_configuration->nx - 1));
-		y_percent = fmod(point_utm_n, total_height_m / (cvms5_configuration->ny - 1)) / (total_height_m / (cvms5_configuration->ny - 1));
+		x_percent = fmod(point_utm_e, cvms5_total_width_m / (cvms5_configuration->nx - 1)) / (cvms5_total_width_m / (cvms5_configuration->nx - 1));
+		y_percent = fmod(point_utm_n, cvms5_total_height_m / (cvms5_configuration->ny - 1)) / (cvms5_total_height_m / (cvms5_configuration->ny - 1));
 
 		// Check to see if we're in the GTL layer and we actually want the GTL.
 		if (points[i].depth < cvms5_configuration->depth_interval && cvms5_configuration->gtl == 1) {
-			get_vs30_based_gtl(&(points[i]), &(data[i]));
+			cvms5_get_vs30_based_gtl(&(points[i]), &(data[i]));
 
 		} else {
 
 			// Read all the surrounding point properties.
-			read_properties(load_x_coord,     load_y_coord,     load_z_coord,     &(surrounding_points[0]));	// Orgin.
-			read_properties(load_x_coord + 1, load_y_coord,     load_z_coord,     &(surrounding_points[1]));	// Orgin + 1x
-			read_properties(load_x_coord,     load_y_coord + 1, load_z_coord,     &(surrounding_points[2]));	// Orgin + 1y
-			read_properties(load_x_coord + 1, load_y_coord + 1, load_z_coord,     &(surrounding_points[3]));	// Orgin + x + y, forms top plane.
-			read_properties(load_x_coord,     load_y_coord,     load_z_coord - 1, &(surrounding_points[4]));	// Bottom plane origin
-			read_properties(load_x_coord + 1, load_y_coord,     load_z_coord - 1, &(surrounding_points[5]));	// +1x
-			read_properties(load_x_coord,     load_y_coord + 1, load_z_coord - 1, &(surrounding_points[6]));	// +1y
-			read_properties(load_x_coord + 1, load_y_coord + 1, load_z_coord - 1, &(surrounding_points[7]));	// +x +y, forms bottom plane.
+			cvms5_read_properties(load_x_coord,     load_y_coord,     load_z_coord,     &(surrounding_points[0]));	// Orgin.
+			cvms5_read_properties(load_x_coord + 1, load_y_coord,     load_z_coord,     &(surrounding_points[1]));	// Orgin + 1x
+			cvms5_read_properties(load_x_coord,     load_y_coord + 1, load_z_coord,     &(surrounding_points[2]));	// Orgin + 1y
+			cvms5_read_properties(load_x_coord + 1, load_y_coord + 1, load_z_coord,     &(surrounding_points[3]));	// Orgin + x + y, forms top plane.
+			cvms5_read_properties(load_x_coord,     load_y_coord,     load_z_coord - 1, &(surrounding_points[4]));	// Bottom plane origin
+			cvms5_read_properties(load_x_coord + 1, load_y_coord,     load_z_coord - 1, &(surrounding_points[5]));	// +1x
+			cvms5_read_properties(load_x_coord,     load_y_coord + 1, load_z_coord - 1, &(surrounding_points[6]));	// +1y
+			cvms5_read_properties(load_x_coord + 1, load_y_coord + 1, load_z_coord - 1, &(surrounding_points[7]));	// +x +y, forms bottom plane.
 
-			trilinear_interpolation(x_percent, y_percent, z_percent, surrounding_points, &(data[i]));
+			cvms5_trilinear_interpolation(x_percent, y_percent, z_percent, surrounding_points, &(data[i]));
 		}
 
 		// Calculate density.
-		data[i].rho = calculate_density(data[i].vs);
+		data[i].rho = cvms5_calculate_density(data[i].vs);
 
 		// Calculate Qp and Qs.
 		if (data[i].vs < 1500)
@@ -240,7 +240,7 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
  * @param z The z coordinate of the data point.
  * @param data The properties struct to which the material properties will be written.
  */
-void read_properties(int x, int y, int z, cvms5_properties_t *data) {
+void cvms5_read_properties(int x, int y, int z, cvms5_properties_t *data) {
 	// Set everything to -1 to indicate not found.
 	data->vp = -1;
 	data->vs = -1;
@@ -286,21 +286,21 @@ void read_properties(int x, int y, int z, cvms5_properties_t *data) {
  * @param eight_points Eight surrounding data properties
  * @param ret_properties Returned data properties
  */
-void trilinear_interpolation(double x_percent, double y_percent, double z_percent,
+void cvms5_trilinear_interpolation(double x_percent, double y_percent, double z_percent,
 							 cvms5_properties_t *eight_points, cvms5_properties_t *ret_properties) {
 	cvms5_properties_t *temp_array = calloc(2, sizeof(cvms5_properties_t));
 	cvms5_properties_t *four_points = eight_points;
 
-	bilinear_interpolation(x_percent, y_percent, four_points, &temp_array[0]);
+	cvms5_bilinear_interpolation(x_percent, y_percent, four_points, &temp_array[0]);
 
 	// Now advance the pointer four "cvms5_properties_t" spaces.
 	four_points += 4;
 
 	// Another interpolation.
-	bilinear_interpolation(x_percent, y_percent, four_points, &temp_array[1]);
+	cvms5_bilinear_interpolation(x_percent, y_percent, four_points, &temp_array[1]);
 
 	// Now linearly interpolate between the two.
-	linear_interpolation(z_percent, &temp_array[0], &temp_array[1], ret_properties);
+	cvms5_linear_interpolation(z_percent, &temp_array[0], &temp_array[1], ret_properties);
 
 	free(temp_array);
 }
@@ -314,11 +314,11 @@ void trilinear_interpolation(double x_percent, double y_percent, double z_percen
  * @param four_points Data property plane.
  * @param ret_properties Returned data properties.
  */
-void bilinear_interpolation(double x_percent, double y_percent, cvms5_properties_t *four_points, cvms5_properties_t *ret_properties) {
+void cvms5_bilinear_interpolation(double x_percent, double y_percent, cvms5_properties_t *four_points, cvms5_properties_t *ret_properties) {
 	cvms5_properties_t *temp_array = calloc(2, sizeof(cvms5_properties_t));
-	linear_interpolation(x_percent, &four_points[0], &four_points[1], &temp_array[0]);
-	linear_interpolation(x_percent, &four_points[2], &four_points[3], &temp_array[1]);
-	linear_interpolation(y_percent, &temp_array[0], &temp_array[1], ret_properties);
+	cvms5_linear_interpolation(x_percent, &four_points[0], &four_points[1], &temp_array[0]);
+	cvms5_linear_interpolation(x_percent, &four_points[2], &four_points[3], &temp_array[1]);
+	cvms5_linear_interpolation(y_percent, &temp_array[0], &temp_array[1], ret_properties);
 	free(temp_array);
 }
 
@@ -330,7 +330,7 @@ void bilinear_interpolation(double x_percent, double y_percent, cvms5_properties
  * @param x1 Data point at x1.
  * @param ret_properties Resulting data properties.
  */
-void linear_interpolation(double percent, cvms5_properties_t *x0, cvms5_properties_t *x1, cvms5_properties_t *ret_properties) {
+void cvms5_linear_interpolation(double percent, cvms5_properties_t *x0, cvms5_properties_t *x1, cvms5_properties_t *ret_properties) {
 	ret_properties->vp  = (1 - percent) * x0->vp  + percent * x1->vp;
 	ret_properties->vs  = (1 - percent) * x0->vs  + percent * x1->vs;
 	ret_properties->rho = (1 - percent) * x0->rho + percent * x1->rho;
@@ -364,12 +364,12 @@ int cvms5_finalize() {
 int cvms5_version(char *ver, int len)
 {
   int verlen;
-  verlen = strlen(version_string);
+  verlen = strlen(cvms5_version_string);
   if (verlen > len - 1) {
     verlen = len - 1;
   }
   memset(ver, 0, len);
-  strncpy(ver, version_string, verlen);
+  strncpy(ver, cvms5_version_string, verlen);
   return 0;
 }
 
@@ -390,7 +390,7 @@ int read_cvms5_configuration(char *file, cvms5_configuration_t *config) {
 
 	// If our file pointer is null, an error has occurred. Return fail.
 	if (fp == NULL) {
-		print_error("Could not open the cvms5_configuration file.");
+		cvms5_print_error("Could not open the cvms5_configuration file.");
 		return FAIL;
 	}
 
@@ -435,7 +435,7 @@ int read_cvms5_configuration(char *file, cvms5_configuration_t *config) {
 		config->bottom_right_corner_e == 0 || config->bottom_right_corner_n == 0 || config->depth == 0 ||
 		config->depth_interval == 0 || config->p0 == 0 || config->p1 == 0 || config->p2 == 0 || config->p3 == 0 ||
 		config->p4 == 0 || config->p5 == 0) {
-		print_error("One cvms5_configuration parameter not specified. Please check your cvms5_configuration file.");
+		cvms5_print_error("One cvms5_configuration parameter not specified. Please check your cvms5_configuration file.");
 		return FAIL;
 	}
 
@@ -451,7 +451,7 @@ int read_cvms5_configuration(char *file, cvms5_configuration_t *config) {
  * @param filename The e-tree's file location from which to read.
  * @param map The outputted map cvms5_configuration structure.
  */
-int read_vs30_map(char *filename, cvms5_vs30_map_config_t *map) {
+int cvms5_read_vs30_map(char *filename, cvms5_vs30_map_config_t *map) {
 	char appmeta[512];
 	char *token;
 	int index = 0, retVal = 0;
@@ -524,7 +524,7 @@ int read_vs30_map(char *filename, cvms5_vs30_map_config_t *map) {
  * @param map The Vs30 map structure as defined during the initialization procedure.
  * @return The Vs30 value at that point, or -1 if outside the boundaries.
  */
-double get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t *map) {
+double cvms5_get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t *map) {
 	// Convert both points to UTM.
 	double longitude_utm_e = longitude * DEG_TO_RAD;
 	double latitude_utm_n = latitude * DEG_TO_RAD;
@@ -535,7 +535,7 @@ double get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t
 	double percent = 0.0;
 	int loc_x = 0, loc_y = 0;
 	etree_addr_t addr;
-	vs30_mpayload_t vs30_payload[4];
+	cvms5_vs30_mpayload_t vs30_payload[4];
 
 	int max_level = ceil(log(map->x_dimension / map->spacing) / log(2.0));
 	etree_tick_t edgetics = (etree_tick_t)1 << (ETREE_MAXLEVEL - max_level);
@@ -548,8 +548,8 @@ double get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t
 	temp_rotated_point_e = longitude_utm_e - vs30_long_utm_e;
 	temp_rotated_point_n = latitude_utm_n - vs30_lat_utm_n;
 
-	rotated_point_e = cos_vs30_rotation_angle * temp_rotated_point_e - sin_vs30_rotation_angle * temp_rotated_point_n;
-	rotated_point_n = sin_vs30_rotation_angle * temp_rotated_point_e + cos_vs30_rotation_angle * temp_rotated_point_n;
+	rotated_point_e = cvms5_cos_vs30_rotation_angle * temp_rotated_point_e - cvms5_sin_vs30_rotation_angle * temp_rotated_point_n;
+	rotated_point_n = cvms5_sin_vs30_rotation_angle * temp_rotated_point_e + cvms5_cos_vs30_rotation_angle * temp_rotated_point_n;
 
 	// Are we within the box?
 	if (rotated_point_e < 0 || rotated_point_n < 0 || rotated_point_e > map->x_dimension ||
@@ -593,7 +593,7 @@ double get_vs30_value(double longitude, double latitude, cvms5_vs30_map_config_t
  * @param data The material properties at the point specified, or -1 if not found.
  * @return Success or failure.
  */
-int get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data) {
+int cvms5_get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data) {
 	double a = 0.5, b = 0.6, c = 0.5;
 	double percent_z = point->depth / cvms5_configuration->depth_interval;
 	double f = 0.0, g = 0.0;
@@ -613,7 +613,7 @@ int get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data) {
 	if (cvms5_query(pt, dt, 1) != SUCCESS) return FAIL;
 
 	// Now we need the Vs30 data value.
-	vs30 = get_vs30_value(point->longitude, point->latitude, cvms5_vs30_map);
+	vs30 = cvms5_get_vs30_value(point->longitude, point->latitude, cvms5_vs30_map);
 
 	if (vs30 == -1) {
 		data->vp = -1;
@@ -641,7 +641,7 @@ int get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data) {
  * @param vs The Vs value off which to scale.
  * @return Density, in g/m^3.
  */
-double calculate_density(double vs) {
+double cvms5_calculate_density(double vs) {
 	double retVal;
 	vs = vs / 1000;
 	retVal = cvms5_configuration->p0 + cvms5_configuration->p1 * vs + cvms5_configuration->p2 * pow(vs, 2) +
@@ -655,7 +655,7 @@ double calculate_density(double vs) {
  *
  * @param err The error string to print out to stderr.
  */
-void print_error(char *err) {
+void cvms5_print_error(char *err) {
 	fprintf(stderr, "An error has occurred while executing CVM-S5. The error was:\n\n");
 	fprintf(stderr, "%s", err);
 	fprintf(stderr, "\n\nPlease contact software@scec.org and describe both the error and a bit\n");
@@ -669,7 +669,7 @@ void print_error(char *err) {
  * @return 2 if all files are read to memory, SUCCESS if file is found but at least 1
  * is not in memory, FAIL if no file found.
  */
-int try_reading_model(cvms5_model_t *model) {
+int cvms5_try_reading_model(cvms5_model_t *model) {
 	double base_malloc = cvms5_configuration->nx * cvms5_configuration->ny * cvms5_configuration->nz * sizeof(float);
 	int file_count = 0;
 	int all_read_to_memory = 1;
