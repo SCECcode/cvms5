@@ -39,7 +39,7 @@ int cvms5_init(const char *dir, const char *label) {
 	sprintf(configbuf, "%s/model/%s/data/config", dir, label);
 
 	// Read the cvms5_configuration file.
-	if (read_cvms5_configuration(configbuf, cvms5_configuration) != SUCCESS)
+	if (cvms5_read_configuration(configbuf, cvms5_configuration) != SUCCESS)
 		tempVal = FAIL;
 
 	// Set up the iteration directory.
@@ -56,7 +56,7 @@ int cvms5_init(const char *dir, const char *label) {
 		return FAIL;
 	}
 
-	if (read_vs30_map(vs30_etree_file, cvms5_vs30_map) != SUCCESS) {
+	if (cvms5_read_vs30_map(vs30_etree_file, cvms5_vs30_map) != SUCCESS) {
 		cvms5_print_error("Could not read the Vs30 map data from UCVM.");
 		return FAIL;
 	}
@@ -171,7 +171,7 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
 			cvms5_bilinear_interpolation(x_percent, y_percent, surrounding_points, &(data[i]));
 			
 			// Calculate density.
-                	data[i].rho = calculate_density(data[i].vs);
+                	data[i].rho = cvms5_calculate_density(data[i].vs);
 
                 	// Calculate Qp and Qs.
                 	if (data[i].vs < 1500)
@@ -382,7 +382,7 @@ int cvms5_version(char *ver, int len)
  * @param config The cvms5_configuration struct to which the data should be written.
  * @return Success or failure, depending on if file was read successfully.
  */
-int read_cvms5_configuration(char *file, cvms5_configuration_t *config) {
+int cvms5_read_configuration(char *file, cvms5_configuration_t *config) {
 	FILE *fp = fopen(file, "r");
 	char key[40];
 	char value[80];

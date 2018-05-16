@@ -247,7 +247,7 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpts);
 
 // Non-UCVM Helper Functions
 /** Reads the configuration file. */
-int read_configuration(char *file, cvms5_configuration_t *config);
+int cvms5_read_configuration(char *file, cvms5_configuration_t *config);
 /** Retrieves the vs30 value for a given point. */
 int cvms5_get_vs30_based_gtl(cvms5_point_t *point, cvms5_properties_t *data);
 /** Prints out the error string. */
