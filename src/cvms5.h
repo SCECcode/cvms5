@@ -30,6 +30,9 @@
 /** Defines a return value of failure */
 #define FAIL 1
 
+/* forward declaration */
+void utm_geo_(double*, double*, double*, double*, int*, int*);
+
 // Structures
 /** Defines a point (latitude, longitude, and depth) in WGS84 format */
 typedef struct cvms5_point_t {
