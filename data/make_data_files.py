@@ -72,7 +72,7 @@ def main():
 
     fp.close()
 
-    print("\nDownloading model files\n")
+    print("\nDownloading model dataset\n")
 
     subprocess.check_call(["mkdir", "-p", mdir])
 
