@@ -9,47 +9,80 @@ import getopt
 import sys
 import subprocess
 
+if sys.version_info.major >= (3) :
+  from urllib.request import urlopen
+else:
+  from urllib2 import urlopen
+
 model = "CVMS5"
 
 def usage():
-    print("\n./make_data_files.py -d [s5] -u [uid]\n\n")
-    print("-d - dataset to retrieve from hypocenter.\n")
-    print("-u - username to use to do the dataset retrieval.\n")
+    print("\n./make_data_files.py\n\n")
     sys.exit(0)
+
+def download_urlfile(url,fname):
+  try:
+    response = urlopen(url)
+    CHUNK = 16 * 1024
+    with open(fname, 'wb') as f:
+      while True:
+        chunk = response.read(CHUNK)
+        if not chunk:
+          break
+        f.write(chunk)
+  except:
+    e = sys.exc_info()[0]
+    print("Exception retrieving and saving model datafiles:",e)
+    raise
+  return True
 
 def main():
 
     # Set our variable defaults.
-    dataset = -1
-    username = -1 
-    path = "/var/www/html/research/ucvmc/" + model 
+    path = ""
+    mdir = ""
 
-    # Get the dataset.
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "u:d:", ["user=", "dataset="])
-    except getopt.GetoptError as err:
-        print(str(err))
-        usage()
+        fp = open('./config','r')
+    except:
+        print("ERROR: failed to open config file")
         sys.exit(1)
 
-    for o, a in opts:
-        if o in ("-d", "--dataset"):
-            dataset = str(a)
-        if o in ("-u", "--user"):
-            username = str(a) + "@"
+    ## look for model_data_path and other varaibles
+    lines = fp.readlines()
+    for line in lines :
+        if line[0] == '#' :
+          continue
+        parts = line.split('=')
+        if len(parts) < 2 :
+          continue;
+        variable=parts[0].strip()
+        val=parts[1].strip()
 
-    # If the iteration number was not provided, display the usage.
-    if dataset == -1 or username == -1:
-        usage()
+        if (variable == 'model_data_path') :
+            path = val + '/' + model
+            continue
+        if (variable == 'model_dir') :
+            mdir = "./"+val;
+            continue
+        continue
+    if path == "" :
+        print("ERROR: failed to find variables in config file")
         sys.exit(1)
 
-    print("\nDownloading model dataset\n")
+    fp.close()
 
-    subprocess.check_call(["mkdir", "-p", dataset])
+    print("\nDownloading model files\n")
 
-    subprocess.check_call(["scp", username +
-                           "hypocenter.usc.edu:" + path + "/" + dataset +"/*",
-                           dataset])
+    subprocess.check_call(["mkdir", "-p", mdir])
+
+    fname= mdir+ "/vp.dat"
+    url = path + "/" + fname
+    download_urlfile(url,fname)
+
+    fname= mdir+ "/vs.dat"
+    url = path + "/" + fname
+    download_urlfile(url,fname)
 
     print("\nDone!")
 
