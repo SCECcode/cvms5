@@ -128,14 +128,19 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
 
 	for (i = 0; i < numpoints; i++) {
 // initialize data first
-                        data[i].vp = -1;
-                        data[i].vs = -1;
-                        data[i].rho = -1;
-                        data[i].qp = -1;
-                        data[i].qs = -1;
+                data[i].vp = -1;
+                data[i].vs = -1;
+                data[i].rho = -1;
+                data[i].qp = -1;
+                data[i].qs = -1;
 
 		temp_utm_e = points[i].longitude; // * DEG_TO_RAD;
 		temp_utm_n = points[i].latitude; // * DEG_TO_RAD;
+
+// if depth is not positive (incorrectly set, then it is a DATAGAP)
+                if(points[i].depth < 0.0) {
+                    continue;
+                }
 
 		// Still need to use utm_geo
 		//pj_transform(pj_latlon, pj_utm, 1, 1, &point_utm_e, &point_utm_n, NULL);
