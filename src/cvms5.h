@@ -30,6 +30,8 @@
 /** Defines a return value of failure */
 #define FAIL 1
 
+#define CVMS5_CONFIG_MAX 1000
+
 /* forward declaration */
 void utm_geo_(double*, double*, double*, double*, int*, int*);
 
@@ -181,6 +183,10 @@ const char *cvms5_version_string = "CVM-S5";
 // Variables
 /** Set to 1 when the model is ready for query. */
 int cvms5_is_initialized = 0;
+
+** The config of the model */
+char *cvms5_config_string=NULL;
+int cvms5_config_sz=0;
 
 /** Location of the ucvm.e e-tree file. */
 char vs30_etree_file[128];

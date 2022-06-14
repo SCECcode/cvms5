@@ -26,6 +26,9 @@ int cvms5_init(const char *dir, const char *label) {
 	int tempVal = 0;
 	char configbuf[512];
 	double north_height_m = 0, east_width_m = 0, rotation_angle = 0;
+        cvms5_config_string = calloc(CVMS5_CONFIG_MAX, sizeof(char));
+        cvms5_config_string[0]='\0';
+        cvms5_config_sz=0;
 
 	// Initialize variables.
 	cvms5_configuration = calloc(1, sizeof(cvms5_configuration_t));
@@ -99,6 +102,10 @@ int cvms5_init(const char *dir, const char *label) {
 	// Get the cos and sin for the Vs30 map rotation.
 	cvms5_cos_vs30_rotation_angle = cos(cvms5_vs30_map->rotation * DEG_TO_RAD);
 	cvms5_sin_vs30_rotation_angle = sin(cvms5_vs30_map->rotation * DEG_TO_RAD);
+
+         /* setup config_string */
+         sprintf(cvms5_config_string,"config = %s\n",configbuf);
+         cvms5_config_sz=1;
 
 	// Let everyone know that we are initialized and ready for business.
 	cvms5_is_initialized = 1;
@@ -355,6 +362,8 @@ int cvms5_finalize() {
 	if (cvms5_velocity_model) free(cvms5_velocity_model);
 	if (cvms5_configuration) free(cvms5_configuration);
 	if (cvms5_vs30_map) free(cvms5_vs30_map);
+
+        if (cvms5_config_string) free(cvms5_config_string);
 
 	return SUCCESS;
 }
