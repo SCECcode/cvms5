@@ -842,6 +842,9 @@ int (*get_model_finalize())() {
 int (*get_model_version())(char *, int) {
          return &cvms5_version;
 }
+int (*get_model_config())(char **, int*) {
+         return &cvms5_config;
+}
 
 
 #endif
