@@ -388,6 +388,25 @@ int cvms5_version(char *ver, int len)
 }
 
 /**
+ * Returns the model config information.
+ *
+ * @param key Config key string to return.
+ * @param sz Number of config term to return.
+ * @return Zero
+ */
+int cvms5_config(char **config, int *sz)
+{
+  int len=strlen(cvms5_config_string);
+  if(len > 0) {
+    *config=cvms5_config_string;
+    *sz=cvms5_config_sz;
+    return SUCCESS;
+  }
+  return FAIL;
+}
+
+
+/**
  * Reads the cvms5_configuration file describing the various properties of CVM-S5 and populates
  * the cvms5_configuration struct. This assumes cvms5_configuration has been "calloc'ed" and validates
  * that each value is not zero at the end.
