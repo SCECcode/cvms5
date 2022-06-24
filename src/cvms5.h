@@ -184,8 +184,8 @@ const char *cvms5_version_string = "CVM-S5";
 /** Set to 1 when the model is ready for query. */
 int cvms5_is_initialized = 0;
 
-** The config of the model */
-char *cvms5_config_string=NULL;
+/** The config of the model */
+char *cvms5_config_string="";
 int cvms5_config_sz=0;
 
 /** Location of the ucvm.e e-tree file. */

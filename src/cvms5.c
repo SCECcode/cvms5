@@ -830,7 +830,7 @@ int model_version(char *ver, int len) {
 	return cvms5_version(ver, len);
 }
 
-**
+/**
  * Version function loaded and called by the UCVM library. Calls cvms5_config.
  *
  * @param config Config string to return.
