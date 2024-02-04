@@ -1,9 +1,9 @@
 # Autoconf/automake file
 
 # General compiler/linker flags
-AM_CFLAGS = ${CFLAGS}
+AM_CFLAGS = ${CFLAGS} ${ETREE_INCLUDES} ${PROJ_INCLUDES}
 AM_FCFLAGS = ${FCFLAGS}
-AM_LDFLAGS = ${LDFLAGS}
+AM_LDFLAGS = ${LDFLAGS} ${ETREE_LDFLAGS} ${PROJ_LDFLAGS}
 
 TARGETS = libcvms5.a libcvms5.so
 
@@ -17,10 +17,10 @@ install:
 	cp libcvms5.a ${prefix}/lib
 	cp cvms5.h ${prefix}/include
 
-libcvms5.a: cvms5_static.o utm_geo.o
+libcvms5.a: cvms5_static.o
 	$(AR) rcs $@ $^
 
-libcvms5.so: cvms5.o utm_geo.o
+libcvms5.so: cvms5.o 
 	$(FC) -shared $(AM_FCFLAGS) -o libcvms5.so $^ $(AM_LDFLAGS)
 
 cvms5.o: cvms5.c
@@ -29,8 +29,8 @@ cvms5.o: cvms5.c
 cvms5_static.o: cvms5.c
 	$(CC) -o $@ -c $^ $(AM_CFLAGS)
 	
-utm_geo.o: utm_geo.f90
-	$(FC) -fPIC -o $@ -c $^ $(AM_FCFLAGS)
+#utm_geo.o: utm_geo.f90
+#	$(FC) -fPIC -o $@ -c $^ $(AM_FCFLAGS)
 
 clean:
 	rm -rf $(TARGETS)
