@@ -26,6 +26,9 @@ int cvms5_init(const char *dir, const char *label) {
 	int tempVal = 0;
 	char configbuf[512];
 	double north_height_m = 0, east_width_m = 0, rotation_angle = 0;
+        cvms5_config_string = calloc(CVMS5_CONFIG_MAX, sizeof(char));
+        cvms5_config_string[0]='\0';
+        cvms5_config_sz=0;
 
 	// Initialize variables.
 	cvms5_configuration = calloc(1, sizeof(cvms5_configuration_t));
@@ -99,6 +102,10 @@ int cvms5_init(const char *dir, const char *label) {
 	// Get the cos and sin for the Vs30 map rotation.
 	cvms5_cos_vs30_rotation_angle = cos(cvms5_vs30_map->rotation * DEG_TO_RAD);
 	cvms5_sin_vs30_rotation_angle = sin(cvms5_vs30_map->rotation * DEG_TO_RAD);
+
+         /* setup config_string */
+         sprintf(cvms5_config_string,"config = %s\n",configbuf);
+         cvms5_config_sz=1;
 
 	// Let everyone know that we are initialized and ready for business.
 	cvms5_is_initialized = 1;
@@ -357,6 +364,8 @@ int cvms5_finalize() {
 	if (cvms5_configuration) free(cvms5_configuration);
 	if (cvms5_vs30_map) free(cvms5_vs30_map);
 
+        if (cvms5_config_string) free(cvms5_config_string);
+
 	return SUCCESS;
 }
 
@@ -378,6 +387,25 @@ int cvms5_version(char *ver, int len)
   strncpy(ver, cvms5_version_string, verlen);
   return 0;
 }
+
+/**
+ * Returns the model config information.
+ *
+ * @param key Config key string to return.
+ * @param sz Number of config term to return.
+ * @return Zero
+ */
+int cvms5_config(char **config, int *sz)
+{
+  int len=strlen(cvms5_config_string);
+  if(len > 0) {
+    *config=cvms5_config_string;
+    *sz=cvms5_config_sz;
+    return SUCCESS;
+  }
+  return FAIL;
+}
+
 
 /**
  * Reads the cvms5_configuration file describing the various properties of CVM-S5 and populates
@@ -822,6 +850,18 @@ int model_version(char *ver, int len) {
 	return cvms5_version(ver, len);
 }
 
+/**
+ * Version function loaded and called by the UCVM library. Calls cvms5_config.
+ *
+ * @param config Config string to return.
+ * @param sz length of config terms
+ * @return Zero
+ */
+int model_config(char **config, int *sz) {
+        return cvms5_config(config, sz);
+}
+
+
 int (*get_model_init())(const char *, const char *) {
         return &cvms5_init;
 }
@@ -833,6 +873,9 @@ int (*get_model_finalize())() {
 }
 int (*get_model_version())(char *, int) {
          return &cvms5_version;
+}
+int (*get_model_config())(char **, int*) {
+         return &cvms5_config;
 }
 
 
