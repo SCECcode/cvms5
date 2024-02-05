@@ -276,6 +276,7 @@ void cvms5_read_properties(int x, int y, int z, cvms5_properties_t *data) {
 		data->vp = ptr[location];
 	} else if (cvms5_velocity_model->vp_status == 1) {
 		// Read from file.
+		fp = (FILE *)cvms5_velocity_model->vp;
 		fseek(fp, location * sizeof(float), SEEK_SET);
 		fread(&(data->vp), sizeof(float), 1, fp);
 	}
