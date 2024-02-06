@@ -720,8 +720,7 @@ double cvms5_calculate_density(double vs) {
  * @param err The error string to print out to stderr.
  */
 void cvms5_print_error(char *err) {
-    fprintf(stderr, "An error has occurred while executing CVM-S5. The error was:\n\n");
-    fprintf(stderr, "%s", err);
+    fprintf(stderr, "An error has occurred while executing CVM-S5: %s\n",err);
     fprintf(stderr, "\n\nPlease contact software@scec.org and describe both the error and a bit\n");
     fprintf(stderr, "about the computer you are running CVM-S5 on (Linux, Mac, etc.).\n");
 }

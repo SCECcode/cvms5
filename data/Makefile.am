@@ -9,3 +9,5 @@ install:
 	mkdir -p ${prefix}/data/s5
 	cp ./config ${prefix}/data
 	cp ./s5/* ${prefix}/data/s5
+	chmod +x ${prefix}/data/s5
+	chmod -R og+rw ${prefix}/data/*
