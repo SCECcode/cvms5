@@ -85,7 +85,7 @@ int cvms5_init(const char *dir, const char *label) {
         }
 
         assert(cvms5_vs30_map);
-        if (!(cvm5_geo2aeqd = proj_create_crs_to_crs(PJ_DEFAULT_CTX, "EPSG:4326", cvm5_vs30_map->projection, NULL))) {
+        if (!(cvms5_geo2aeqd = proj_create_crs_to_crs(PJ_DEFAULT_CTX, "EPSG:4326", cvms5_vs30_map->projection, NULL))) {
             cvms5_print_error("Could not set up Proj transformation from EPSG:4326 to AEQD projection.");
             cvms5_print_error((char  *)proj_context_errno_string(PJ_DEFAULT_CTX, proj_context_errno(PJ_DEFAULT_CTX)));
             return (UCVM_CODE_ERROR);
@@ -178,8 +178,8 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
         point_v -= cvms5_configuration->bottom_left_corner_n;
 
         // We need to rotate that point, the number of degrees we calculated above.
-        point_x = cvms5_cos_rotation_angle * temp_utm_e - cvms5_sin_rotation_angle * point_v;
-        point_y = cvms5_sin_rotation_angle * temp_utm_e + cvms5_cos_rotation_angle * point_v;
+        point_x = cvms5_cos_rotation_angle * point_u - cvms5_sin_rotation_angle * point_v;
+        point_y = cvms5_sin_rotation_angle * point_u + cvms5_cos_rotation_angle * point_v;
 
         // Which point base point does that correspond to?
         load_x_coord = floor(point_x / cvms5_total_width_m * (cvms5_configuration->nx -1));
@@ -223,8 +223,8 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
         }
 
         // Get the X and Y percentages for the bilinear or trilinear interpolation below.
-        x_percent = fmod(point_utm_e, cvms5_total_width_m / (cvms5_configuration->nx - 1)) / (cvms5_total_width_m / (cvms5_configuration->nx - 1));
-        y_percent = fmod(point_utm_n, cvms5_total_height_m / (cvms5_configuration->ny - 1)) / (cvms5_total_height_m / (cvms5_configuration->ny - 1));
+        x_percent = fmod(point_x, cvms5_total_width_m / (cvms5_configuration->nx - 1)) / (cvms5_total_width_m / (cvms5_configuration->nx - 1));
+        y_percent = fmod(point_y, cvms5_total_height_m / (cvms5_configuration->ny - 1)) / (cvms5_total_height_m / (cvms5_configuration->ny - 1));
 
         // Check to see if we're in the GTL layer and we actually want the GTL.
         if (points[i].depth < cvms5_configuration->depth_interval && cvms5_configuration->gtl == 1) {
