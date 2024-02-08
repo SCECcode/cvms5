@@ -74,22 +74,21 @@ int cvms5_init(const char *dir, const char *label) {
     }
 
     char* pstr= "+proj=utm +zone=11 +ellps=clrk66 +datum=NAD27 +units=m +no_defs";
+    /* Setup projection */
+    // We need to convert the point from lat, lon to UTM, let's set it up.
+    snprintf(cvms5_projstr, 64, "+proj=utm +zone=%d +datum=NAD27 +units=m +no_defs", cvms5_configuration->utm_zone);
+    if (!(cvms5_geo2utm = proj_create_crs_to_crs(PJ_DEFAULT_CTX, "EPSG:4326", cvms5_projstr, NULL))) {
+        cvms5_print_error("Could not set up Proj transformation from EPSG:4325 to UTM.");
+        cvms5_print_error((char  *)proj_context_errno_string(PJ_DEFAULT_CTX, proj_context_errno(PJ_DEFAULT_CTX)));
+        return (UCVM_CODE_ERROR);
+    }
 
-        /* Setup projection */
-        // We need to convert the point from lat, lon to UTM, let's set it up.
-        snprintf(cvms5_projstr, 64, "+proj=utm +zone=%d +datum=NAD27 +units=m +no_defs", cvms5_configuration->utm_zone);
-        if (!(cvms5_geo2utm = proj_create_crs_to_crs(PJ_DEFAULT_CTX, "EPSG:4326", cvms5_projstr, NULL))) {
-            cvms5_print_error("Could not set up Proj transformation from EPSG:4325 to UTM.");
-            cvms5_print_error((char  *)proj_context_errno_string(PJ_DEFAULT_CTX, proj_context_errno(PJ_DEFAULT_CTX)));
-            return (UCVM_CODE_ERROR);
-        }
-
-        assert(cvms5_vs30_map);
-        if (!(cvms5_geo2aeqd = proj_create_crs_to_crs(PJ_DEFAULT_CTX, "EPSG:4326", cvms5_vs30_map->projection, NULL))) {
-            cvms5_print_error("Could not set up Proj transformation from EPSG:4326 to AEQD projection.");
-            cvms5_print_error((char  *)proj_context_errno_string(PJ_DEFAULT_CTX, proj_context_errno(PJ_DEFAULT_CTX)));
-            return (UCVM_CODE_ERROR);
-        }
+    assert(cvms5_vs30_map);
+    if (!(cvms5_geo2aeqd = proj_create_crs_to_crs(PJ_DEFAULT_CTX, "EPSG:4326", cvms5_vs30_map->projection, NULL))) {
+        cvms5_print_error("Could not set up Proj transformation from EPSG:4326 to AEQD projection.");
+        cvms5_print_error((char  *)proj_context_errno_string(PJ_DEFAULT_CTX, proj_context_errno(PJ_DEFAULT_CTX)));
+        return (UCVM_CODE_ERROR);
+    }
 
 
     // In order to simplify our calculations in the query, we want to rotate the box so that the bottom-left
