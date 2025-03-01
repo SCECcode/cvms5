@@ -90,12 +90,26 @@ AC_ARG_WITH([proj-libdir],
 AC_SUBST(with_proj_libdir)
 
 
+##check optional large data path 
+if test x"$CVM_LARGEDATA_DIR" != x; then
+   # test directory existence
+   CVMS5_LARGEDATA_DIR=$CVM_LARGEDATA_DIR/model/cvms5_s5
+   AC_CHECK_FILE($CVM_LARGEDATA_DIR/model/cvms5_s5/vp.dat, [], [AC_MSG_ERROR(["CVMS5 data not found in cvm_largedata_dir"])])
+   AM_CONDITIONAL([WITH_CVMS5_LARGEDATA_DIR], true)
+   AC_SUBST(CVMS5_LARGEDATA_DIR)
+else
+   AM_CONDITIONAL(WITH_CVMS5_LARGEDATA_DIR, false)
+fi
+
+
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
+AC_PROG_RANLIB
+AC_PROG_LN_S
 
 # Checks for header files.
 AC_HEADER_STDC
