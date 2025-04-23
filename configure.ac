@@ -96,9 +96,16 @@ AC_SUBST(with_proj_libdir)
 if test x"$CVM_LARGEDATA_DIR" != x; then
    # test directory existence
    CVMS5_LARGEDATA_DIR=$CVM_LARGEDATA_DIR/model/cvms5_s5
-#   AC_CHECK_FILE($CVM_LARGEDATA_DIR/model/cvms5_s5/vp.dat, [], [AC_MSG_ERROR(["CVMS5 data not found in cvm_largedata_dir"])])
-   AM_CONDITIONAL([WITH_CVMS5_LARGEDATA_DIR], true)
-   AC_SUBST(CVMS5_LARGEDATA_DIR)
+   if test x"$CVM_IN_DOCKER" != x; then
+     AM_CONDITIONAL([WITH_CVMS5_LARGEDATA_DIR], true)
+     AC_SUBST(CVMS5_LARGEDATA_DIR)
+     AM_CONDITIONAL([WITH_CVMS5_LARGEDATA_DIR], true)
+     AC_SUBST(CVMS5_LARGEDATA_DIR)
+   else
+     AC_CHECK_FILE([$CVMS5_LARGEDATA_DIR/vp.dat], 
+                 [AM_CONDITIONAL([WITH_CVMS5_LARGEDATA_DIR], true) AC_SUBST(CVMS5_LARGEDATA_DIR)],
+                 [AM_CONDITIONAL(WITH_CVMS5_LARGEDATA_DIR, false)])
+   fi
 else
    AM_CONDITIONAL(WITH_CVMS5_LARGEDATA_DIR, false)
 fi

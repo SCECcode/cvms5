@@ -6,7 +6,15 @@ optional geotechnical layer(Ely-Jordan GTL)
 ## Installation
 
 This package is intended to be installed as part of the UCVM framework,
-version 22.7.0 or higher. 
+version 25.x or higher. 
+
+## Library
+
+The library ./lib/libcvms5.a may be statically linked into any
+user application. Also, if your system supports dynamic linking,
+you will also have a ./lib/libcvms5.so file that can be used
+for dynamic linking. The header file defining the API is located
+in ./include/cvms5.h.
 
 ## Contact the authors
 
