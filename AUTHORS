@@ -4,7 +4,17 @@ scientific questions regarding this model should be directed to the researchers
 behind this model.
 
 The data and code for this model is based off of the following papers:
+Lee, E.-J., P. Chen, T. H. Jordan, P. J. Maechling, M. A. M. Denolle, and 
+        G. C.Beroza (2014), Full 3-D tomography for crustal structure in 
+        Southern California based on the scattering-integral and the adjoint-wavefield
+        methods, J. Geophys. Res. Solid Earth, 119, doi:10.1002/2014JB011346.
+        SCEC Contribution 6093
 
+Lee, E.-J., P. Chen, T. H. Jordan, P. J. Maechling, M. A. M. Denolle, 
+        and G. C.Beroza (2014), Full 3-D tomography for crustal structure in 
+        Southern California based on the scattering-integral and the 
+        adjoint-wave¿eld methods, J. Geophys. Res. Solid Earth, 119,
+        doi:10.1002/2014JB011346. SCEC Contribution 6093
 Lee, E., Chen, P., Jordan, T., & Wang, L., 2011. Rapid full-wave centroid 
 	moment tensor (CMT) inversion in a three-dimensional earth structure model
 	for earthquakes in Southern California, Geophysical Journal International, 
