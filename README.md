@@ -1,5 +1,7 @@
 # cvms5
 
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
 Tomography improved Southern California Velocity Model with 
 optional geotechnical layer(Ely-Jordan GTL)
 
