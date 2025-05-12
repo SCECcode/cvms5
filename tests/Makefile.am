@@ -3,10 +3,10 @@
 bin_PROGRAMS = test_cvms5
 
 # General compiler/linker flags
-AM_CFLAGS = ${CFLAGS}
-AM_LDFLAGS = ${LDFLAGS}
+AM_CFLAGS = ${CFLAGS} ${ETREE_INCLUDES} ${PROJ_INCLUDES}
+AM_LDFLAGS = ${LDFLAGS} ${ETREE_LDFLAGS} ${PROJ_LDFLAGS}
 
-objects = test.o
+objects = test_api.o
 TARGETS = $(bin_PROGRAMS)
 
 all: $(bin_PROGRAMS)

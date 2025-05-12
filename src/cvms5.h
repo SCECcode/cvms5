@@ -17,13 +17,15 @@
 #include <math.h>
 
 #include "etree.h"
-#include "proj_api.h"
+#include "proj.h"
 
 // Constants
 #ifndef M_PI
 	/** Defines pi */
 	#define M_PI 3.14159265358979323846
 #endif
+
+#define DEG_TO_RAD M_PI / 180.0
 
 /** Defines a return value of success */
 #define SUCCESS 0
@@ -33,7 +35,7 @@
 #define CVMS5_CONFIG_MAX 1000
 
 /* forward declaration */
-void utm_geo_(double*, double*, double*, double*, int*, int*);
+//void utm_geo_(double*, double*, double*, double*, int*, int*);
 
 // Structures
 /** Defines a point (latitude, longitude, and depth) in WGS84 format */
@@ -184,10 +186,6 @@ const char *cvms5_version_string = "CVM-S5";
 /** Set to 1 when the model is ready for query. */
 int cvms5_is_initialized = 0;
 
-/** The config of the model */
-char *cvms5_config_string="";
-int cvms5_config_sz=0;
-
 /** Location of the ucvm.e e-tree file. */
 char vs30_etree_file[128];
 /** Location of Po and En-Jui's latest iteration files. */
@@ -200,12 +198,10 @@ cvms5_model_t *cvms5_velocity_model;
 /** Holds the configuration parameters for the Vs30 map. */
 cvms5_vs30_map_config_t *cvms5_vs30_map;
 
-/** Proj.4 latitude longitude, WGS84 projection holder. */
-projPJ cvms5_latlon;
-/** Proj.4 UTM projection holder. */
-projPJ cvms5_utm;
-/** Proj.4 Vs30 map projection holder. */
-projPJ cvms5_aeqd;
+
+/** Proj coordinate transformation objects. */
+PJ *cvms5_geo2utm = NULL;
+PJ *cvms5_geo2aeqd = NULL;
 
 /** The cosine of the rotation angle used to rotate the box and point around the bottom-left corner. */
 double cvms5_cos_rotation_angle = 0;
