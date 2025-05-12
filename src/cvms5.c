@@ -269,6 +269,7 @@ int cvms5_query(cvms5_point_t *points, cvms5_properties_t *data, int numpoints) 
  * @param data The properties struct to which the material properties will be written.
  */
 void cvms5_read_properties(int x, int y, int z, cvms5_properties_t *data) {
+  
     // Set everything to -1 to indicate not found.
     data->vp = -1;
     data->vs = -1;
@@ -302,6 +303,7 @@ void cvms5_read_properties(int x, int y, int z, cvms5_properties_t *data) {
         fseek(fp, location * sizeof(float), SEEK_SET);
         fread(&(data->vp), sizeof(float), 1, fp);
     }
+
 }
 
 /**
