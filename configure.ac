@@ -7,8 +7,6 @@ AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE(foreign tar-pax)
 
-AC_CONFIG_MACRO_DIR([m4])
-
 dnl
 dnl Dependencies
 dnl
