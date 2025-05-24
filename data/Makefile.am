@@ -9,7 +9,7 @@ all:
 if WITH_CVMS5_LARGEDATA_DIR
 	echo "USING WITH_CVMS5_LARGEDATA_DIR in cvms5"
 else
-	if [ ! -d "${prefix}/data/s5" ]; then \
+	if [ ! -d "./s5" ]; then \
 		./make_data_files.py; \
 	fi
 endif
