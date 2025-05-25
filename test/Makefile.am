@@ -19,7 +19,7 @@ test_cvms5: $(objects)
 	$(CC) -o $@ $^ $(AM_LDFLAGS)
 
 run_unit : test_cvms5
-	./test_cvms5
+	./run_unit
 
 clean :
 	rm -rf *~ *.o test_cvms5
