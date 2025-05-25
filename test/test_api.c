@@ -30,7 +30,12 @@ int main(int argc, const char* argv[]) {
 	cvms5_properties_t ret;
 
 	// Initialize the model.
-	assert(cvms5_init("../", "cvms5") == 0);
+        char *envstr=getenv("UCVM_INSTALL_PATH");
+        if(envstr != NULL) {
+           assert(cvms5_init(envstr, "cvms5") == 0);
+           } else {
+             assert(cvms5_init("..", "cvms5") == 0);
+        }
 
 	printf("Loaded the model successfully.\n");
 
