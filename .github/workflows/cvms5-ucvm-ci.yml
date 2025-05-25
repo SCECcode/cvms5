@@ -66,9 +66,9 @@ jobs:
 
 
   cvms5-build-ucvm-mac:
-    if: false ## skip this one
-#   if: ${{ success() }}
-#   needs: [cvms5-build-ucvm-linux]
+#   if: false ## skip this one
+    if: ${{ success() }}
+    needs: [cvms5-build-ucvm-linux]
     runs-on: macos-latest
     strategy:
       matrix:
