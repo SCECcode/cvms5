@@ -36,7 +36,6 @@ int main(int argc, const char* argv[]) {
            } else {
              assert(cvms5_init("..", "cvms5") == 0);
         }
-
 	printf("Loaded the model successfully.\n");
 
 	// Query a point.
