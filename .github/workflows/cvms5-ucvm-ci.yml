@@ -6,7 +6,7 @@ on:
 
 jobs:
   cvms5-build-ucvm-linux:
-    if false
+    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:
