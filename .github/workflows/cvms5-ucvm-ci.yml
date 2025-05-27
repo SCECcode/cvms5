@@ -129,7 +129,7 @@ jobs:
       run: (cd $RUNNER_WORKSPACE/cvms5/ucvm/work/model/cvms5; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms5-test-ucvm.sh)
       shell: bash
     - name: Start SSH debug with tmate
-#     if: ${{ failure() }}
+      if: ${{ failure() }}
       uses: mxschmitt/action-tmate@v3
       with:
         limit-access-to-actor: true
