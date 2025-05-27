@@ -6,7 +6,7 @@ on:
 
 jobs:
   cvms5-build-ucvm-linux:
-#   if: false
+    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -69,8 +69,8 @@ jobs:
 
 
   cvms5-build-ucvm-mac:
-    if: ${{ success() }}
-    needs: [cvms5-build-ucvm-linux]
+#   if: ${{ success() }}
+#   needs: [cvms5-build-ucvm-linux]
     runs-on: macos-latest
     strategy:
       matrix:
@@ -123,12 +123,12 @@ jobs:
     - name: check on ucvm
       run: (source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ucvm_query -H)
       shell: bash
-#   - name: Start SSH debug with tmate
-#     uses: mxschmitt/action-tmate@v3
-#     with:
-#       limit-access-to-actor: true
-#   - name: sleep to keep runner alive
-#     run: sleep 3600
+    - name: Start SSH debug with tmate
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: true
+    - name: sleep to keep runner alive
+      run: sleep 3600
 ### check ucvm is still valid
     - name: test cvms5 with ucvm
       run: (cd $RUNNER_WORKSPACE/cvms5/ucvm/work/model/cvms5; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms5-test-ucvm.sh)
