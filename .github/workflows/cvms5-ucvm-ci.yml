@@ -120,6 +120,14 @@ jobs:
     - name: build cvms5 as part of ucvm 
       run: (cd $RUNNER_WORKSPACE/cvms5/ucvm/work/model/cvms5; ./.github/scripts/cvms5-build.sh)
       shell: bash
+### check ucvm is still valid
+    - name: check on ucvm
+      run: (source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ucvm_query -H)
+      shell: bash
+### check ucvm is still valid
+    - name: test cvms5 with ucvm
+      run: (cd $RUNNER_WORKSPACE/cvms5/ucvm/work/model/cvms5; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms5-test-ucvm.sh)
+      shell: bash
 #   - name: Start SSH debug with tmate
 #     if: ${{ failure() }}
 #     uses: mxschmitt/action-tmate@v3
@@ -128,12 +136,6 @@ jobs:
 #   - name: sleep to keep runner alive
 #     run: sleep 3600
 ### check ucvm is still valid
-    - name: check on ucvm
-      run: (source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ucvm_query -H)
-      shell: bash
-    - name: test cvms5 with ucvm
-      run: (cd $RUNNER_WORKSPACE/cvms5/ucvm/work/model/cvms5; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms5-test-ucvm.sh)
-      shell: bash
     - name: test cvms5 under ucvm
       run: (cd $RUNNER_WORKSPACE/cvms5/ucvm; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/ucvm-test.sh)
       shell: bash
