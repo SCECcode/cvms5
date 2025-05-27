@@ -29,6 +29,7 @@ jobs:
       with:
          initiating-repo: 'cvms5'
          target-model: 'cvms5'
+         target-branch: 'testMei'
     - name: get-result
       run: more ${{ steps.build-ucvm.outputs.build-log }}
       shell: bash
@@ -99,6 +100,7 @@ jobs:
       with:
          initiating-repo: 'cvms5'
          target-model: 'cvms5'
+         target-branch: 'testMei'
     - name: get-result
       run: more ${{ steps.build-ucvm.outputs.build-log }}
       shell: bash
