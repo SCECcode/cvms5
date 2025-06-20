@@ -2,8 +2,8 @@ name: cvms5-ucvm-ci
 
 on:
   push:
-##    branches: [ main ]
-    branches: [ foofoo ]
+    branches: [ main ]
+##    branches: [ foofoo ]
 
 jobs:
   cvms5-build-ucvm-linux:
