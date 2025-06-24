@@ -1,5 +1,8 @@
 # cvms5
 
+<a href="https://github.com/sceccode/cvms5.git"><img src="https://github.com/sceccode/cvms5/wiki/images/cvms5_logo.png"></a>
+
+
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sceccode/cvms5)
 [![cvms5-ucvm-ci Actions Status](https://github.com/SCECcode/cvms5/workflows/cvms5-ucvm-ci/badge.svg)](https://github.com/SCECcode/cvms5/actions)
