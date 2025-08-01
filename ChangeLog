@@ -1,16 +1,16 @@
-CVM-S4 (February 2024):
-  
-        update to PROJ
+July 2025
+* v1.0 with UCVM v25.7
 
-CVM-S4 (April 2021):
+February 2024
+* update to PROJ
 
-        Add forward function declaration for utm_geo_() and new LICENSE
+April 2021
+* Add forward function declaration for utm_geo_() and new LICENSE
 
-CVM-S5 (June 2014):
-
-	Includes the 26th iteration of Po Chen and En-Jui Lee's full 3D tomographic
-	improvements to CVM-S4. This model allows for querying at arbitrary
-	precision as well as incorporating the GTL suggestion by Po Chen using
-	the Wills 2006 and Wald 2008 data sets. The full details of the model are
-	available at:
-	http://scec.usc.edu/scecpedia/CVM-S5
+June 2014
+* Includes the 26th iteration of Po Chen and En-Jui Lee's full 3D tomographic
+* improvements to CVM-S4. This model allows for querying at arbitrary
+* precision as well as incorporating the GTL suggestion by Po Chen using
+* the Wills 2006 and Wald 2008 data sets. The full details of the model are
+* available at:
+* http://scec.usc.edu/scecpedia/CVM-S5
